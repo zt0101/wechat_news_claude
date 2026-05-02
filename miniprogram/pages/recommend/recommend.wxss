@@ -31,13 +31,17 @@
   min-height: 0; /* flex 子项需要此属性才能正确收缩 */
 }
 
-/* 图片填满容器 */
-.slide-img {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* 横向图片轮播：填满 img-wrap */
+.img-swiper {
   width: 100%;
   height: 100%;
+}
+
+/* 图片填满每个 swiper-item */
+.slide-img {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* 类目标签：图片左上角 */
@@ -60,6 +64,30 @@
 .cat-sport    { background: rgba(250, 140, 22, 0.88); }
 .cat-society  { background: rgba(0, 180, 216, 0.88); }
 .cat-intl     { background: rgba(19, 194, 194, 0.88); }
+
+/* 分页点点：图片与标题之间 */
+.dots-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8rpx;
+  padding: 14rpx 0 6rpx;
+  background: #fff;
+}
+
+.dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 6rpx;
+  background: #e0e0e0;
+}
+
+.dot-active {
+  width: 28rpx;
+  border-radius: 6rpx;
+  background: #fe2c55;
+}
 
 /* 底部信息区：白底，图片下方 */
 .info-area {
