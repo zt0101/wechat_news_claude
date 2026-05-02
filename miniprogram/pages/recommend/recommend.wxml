@@ -1,79 +1,59 @@
 <view class="page">
-  <!-- 搜索栏 -->
-  <view class="header">
-    <view class="search-box">
-      <input class="search-input" placeholder="搜索新闻、话题" placeholder-class="search-ph" />
-    </view>
-  </view>
-
-  <!-- 分类 Tab -->
-  <scroll-view class="cat-scroll" scroll-x enable-flex>
-    <view class="cat-list">
-      <view
-        class="cat-item {{currentCategory === item ? 'cat-active' : ''}}"
-        wx:for="{{categories}}"
-        wx:key="*this"
-        bindtap="onCategoryTap"
-        data-category="{{item}}"
-      >{{item}}</view>
-    </view>
-  </scroll-view>
-
-  <!-- 瀑布流 -->
-  <scroll-view
-    class="waterfall-scroll"
-    scroll-y
-    refresher-enabled
-    refresher-triggered="{{refreshing}}"
-    bindrefresherrefresh="onRefresh"
-    bindscrolltolower="onLoadMore"
+  <swiper
+    class="news-swiper"
+    vertical
+    duration="300"
+    current="{{currentIndex}}"
+    bindchange="onSwiperChange"
+    skip-hidden-item-layout
   >
-    <view class="waterfall">
-      <!-- 左列 -->
-      <view class="col">
-        <view
-          class="card"
-          wx:for="{{leftColumn}}"
-          wx:key="id"
-          bindtap="onNewsTap"
-          data-id="{{item.id}}"
-        >
-          <view class="img-box">
-            <image class="card-img" src="{{item.image}}" mode="widthFix" lazy-load />
-            <view class="cat-tag cat-{{item.categoryKey}}">{{item.category}}</view>
-          </view>
-          <view class="card-body">
-            <text class="card-title">{{item.title}}</text>
-            <view class="card-foot">
-              <text class="card-src">{{item.source}}</text>
-              <text class="card-likes">♥ {{item.likesText}}</text>
+    <swiper-item wx:for="{{newsList}}" wx:key="id">
+      <view class="slide">
+
+        <!-- 顶部安全区：撑开状态栏 + 胶囊按钮高度，图片不超过胶囊 -->
+        <view class="safe-top" style="height: {{capsuleBottom + 12}}px"></view>
+
+        <!-- 图片区域：flex:1 填充剩余高度，底部边界即为标题上方 -->
+        <view class="img-wrap">
+          <image class="slide-img" src="{{item.image}}" mode="aspectFill" lazy-load />
+          <!-- 类目标签：图片左上角 -->
+          <view class="cat-tag cat-{{item.categoryKey}}">{{item.category}}</view>
+        </view>
+
+        <!-- 底部文字区（白底，标题在图片下方）-->
+        <view class="info-area">
+          <!-- 标题 -->
+          <text class="slide-title">{{item.title}}</text>
+
+          <!-- 来源 + 点赞/评论/转发（同一行对齐）-->
+          <view class="meta-row">
+            <text class="slide-source">{{item.source}}</text>
+            <view class="action-row">
+              <view class="action-item" bindtap="onLike" data-index="{{index}}">
+                <text class="action-icon {{item.liked ? 'icon-liked' : ''}}">♥</text>
+                <text class="action-count">{{item.likesText}}</text>
+              </view>
+              <view class="action-item" bindtap="onComment" data-id="{{item.id}}">
+                <text class="action-icon">评</text>
+                <text class="action-count">{{item.commentsText}}</text>
+              </view>
+              <view class="action-item" bindtap="onShare" data-id="{{item.id}}">
+                <text class="action-icon">转</text>
+                <text class="action-count">{{item.sharesText}}</text>
+              </view>
             </view>
           </view>
-        </view>
-      </view>
-      <!-- 右列 -->
-      <view class="col">
-        <view
-          class="card"
-          wx:for="{{rightColumn}}"
-          wx:key="id"
-          bindtap="onNewsTap"
-          data-id="{{item.id}}"
-        >
-          <view class="img-box">
-            <image class="card-img" src="{{item.image}}" mode="widthFix" lazy-load />
-            <view class="cat-tag cat-{{item.categoryKey}}">{{item.category}}</view>
-          </view>
-          <view class="card-body">
-            <text class="card-title">{{item.title}}</text>
-            <view class="card-foot">
-              <text class="card-src">{{item.source}}</text>
-              <text class="card-likes">♥ {{item.likesText}}</text>
-            </view>
+
+          <!-- 阅读详情按钮 -->
+          <view class="detail-btn" bindtap="onDetail" data-id="{{item.id}}">
+            <text class="detail-text">阅读详情</text>
+            <text class="detail-arrow">›</text>
           </view>
         </view>
+
+        <!-- 底部安全区：Tab Bar 占位 -->
+        <view class="safe-bottom"></view>
       </view>
-    </view>
-    <view class="no-more">— 没有更多了 —</view>
-  </scroll-view>
+    </swiper-item>
+  </swiper>
 </view>

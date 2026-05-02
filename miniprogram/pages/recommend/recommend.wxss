@@ -1,171 +1,155 @@
 .page {
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #f5f5f5;
-}
-
-/* 搜索栏 */
-.header {
-  background: #fff;
-  padding: 16rpx 24rpx;
-}
-
-.search-box {
-  height: 68rpx;
-  background: #f2f2f2;
-  border-radius: 34rpx;
-  display: flex;
-  align-items: center;
-  padding: 0 28rpx;
-}
-
-.search-input {
-  flex: 1;
-  font-size: 28rpx;
-  color: #333;
-}
-
-.search-ph {
-  color: #bbb;
-  font-size: 26rpx;
-}
-
-/* 分类 Tab */
-.cat-scroll {
-  background: #fff;
-  border-bottom: 1rpx solid #f0f0f0;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.cat-list {
-  display: flex;
-  padding: 0 8rpx;
-}
-
-.cat-item {
-  display: inline-flex;
-  align-items: center;
-  height: 80rpx;
-  padding: 0 20rpx;
-  font-size: 28rpx;
-  color: #666;
-  white-space: nowrap;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.cat-active {
-  color: #fe2c55;
-  font-weight: 600;
-}
-
-.cat-active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32rpx;
-  height: 4rpx;
-  background: #fe2c55;
-  border-radius: 2rpx;
-}
-
-/* 瀑布流 */
-.waterfall-scroll {
-  flex: 1;
+  background: #000;
   overflow: hidden;
 }
 
-.waterfall {
-  display: flex;
-  flex-direction: row;
-  gap: 12rpx;
-  padding: 12rpx;
-  align-items: flex-start;
-}
-
-.col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12rpx;
-}
-
-/* 新闻卡片 */
-.card {
-  background: #fff;
-  border-radius: 16rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.06);
-}
-
-.img-box {
-  position: relative;
-}
-
-.card-img {
+.news-swiper {
   width: 100%;
-  display: block;
+  height: 100%;
 }
 
-/* 类目标签 */
+/* 每一屏：flex 纵向排列 */
+.slide {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+/* 顶部安全区：撑开状态栏 + 胶囊按钮，高度由 JS 动态注入 */
+.safe-top {
+  flex-shrink: 0;
+  background: #000;
+}
+
+/* 图片容器：占满中间全部剩余空间 */
+.img-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0; /* flex 子项需要此属性才能正确收缩 */
+}
+
+/* 图片填满容器 */
+.slide-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 类目标签：图片左上角 */
 .cat-tag {
   position: absolute;
-  top: 12rpx;
-  left: 12rpx;
-  padding: 4rpx 14rpx;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 6rpx 18rpx;
   border-radius: 8rpx;
-  font-size: 20rpx;
+  font-size: 22rpx;
   color: #fff;
   font-weight: 600;
+  z-index: 1;
 }
 
-.cat-tech     { background: rgba(22, 119, 255, 0.9); }
-.cat-finance  { background: rgba(0, 185, 107, 0.9); }
-.cat-ent      { background: rgba(146, 84, 222, 0.9); }
-.cat-hot      { background: rgba(245, 34, 45, 0.9); }
-.cat-sport    { background: rgba(250, 140, 22, 0.9); }
-.cat-society  { background: rgba(0, 180, 216, 0.9); }
-.cat-intl     { background: rgba(19, 194, 194, 0.9); }
+.cat-tech     { background: rgba(22, 119, 255, 0.88); }
+.cat-finance  { background: rgba(0, 185, 107, 0.88); }
+.cat-ent      { background: rgba(146, 84, 222, 0.88); }
+.cat-hot      { background: rgba(245, 34, 45, 0.88); }
+.cat-sport    { background: rgba(250, 140, 22, 0.88); }
+.cat-society  { background: rgba(0, 180, 216, 0.88); }
+.cat-intl     { background: rgba(19, 194, 194, 0.88); }
 
-/* 卡片内容 */
-.card-body {
-  padding: 16rpx;
+/* 底部信息区：白底，图片下方 */
+.info-area {
+  flex-shrink: 0;
+  background: #fff;
+  padding: 24rpx 28rpx 16rpx;
 }
 
-.card-title {
-  font-size: 26rpx;
-  color: #1a1a1a;
-  line-height: 1.5;
+/* 标题：限 2 行 */
+.slide-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  font-size: 34rpx;
+  color: #1a1a1a;
+  font-weight: 600;
+  line-height: 1.55;
+  margin-bottom: 18rpx;
 }
 
-.card-foot {
+/* 来源 + 互动按钮：同一行，两端对齐 */
+.meta-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 12rpx;
+  justify-content: space-between;
 }
 
-.card-src {
-  font-size: 22rpx;
-  color: #bbb;
+.slide-source {
+  font-size: 24rpx;
+  color: #999;
+  flex: 1;
+  min-width: 0;
 }
 
-.card-likes {
-  font-size: 22rpx;
+/* 互动按钮组：横排 */
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  flex-shrink: 0;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.action-icon {
+  font-size: 28rpx;
+  color: #aaa;
+}
+
+.icon-liked {
   color: #fe2c55;
 }
 
-.no-more {
-  text-align: center;
-  color: #ccc;
+.action-count {
   font-size: 24rpx;
-  padding: 32rpx 0;
+  color: #aaa;
+}
+
+/* 阅读详情按钮 */
+.detail-btn {
+  margin-top: 20rpx;
+  height: 80rpx;
+  background: #fe2c55;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.detail-text {
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.detail-arrow {
+  color: #fff;
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+/* 底部安全区：Tab Bar 占位（白底与信息区连续）*/
+.safe-bottom {
+  flex-shrink: 0;
+  height: 110rpx;
+  background: #fff;
 }
