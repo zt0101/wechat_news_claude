@@ -1,0 +1,79 @@
+<view class="page">
+  <!-- 搜索栏 -->
+  <view class="header">
+    <view class="search-box">
+      <input class="search-input" placeholder="搜索新闻、话题" placeholder-class="search-ph" />
+    </view>
+  </view>
+
+  <!-- 分类 Tab -->
+  <scroll-view class="cat-scroll" scroll-x enable-flex>
+    <view class="cat-list">
+      <view
+        class="cat-item {{currentCategory === item ? 'cat-active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="*this"
+        bindtap="onCategoryTap"
+        data-category="{{item}}"
+      >{{item}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 瀑布流 -->
+  <scroll-view
+    class="waterfall-scroll"
+    scroll-y
+    refresher-enabled
+    refresher-triggered="{{refreshing}}"
+    bindrefresherrefresh="onRefresh"
+    bindscrolltolower="onLoadMore"
+  >
+    <view class="waterfall">
+      <!-- 左列 -->
+      <view class="col">
+        <view
+          class="card"
+          wx:for="{{leftColumn}}"
+          wx:key="id"
+          bindtap="onNewsTap"
+          data-id="{{item.id}}"
+        >
+          <view class="img-box">
+            <image class="card-img" src="{{item.image}}" mode="widthFix" lazy-load />
+            <view class="cat-tag cat-{{item.categoryKey}}">{{item.category}}</view>
+          </view>
+          <view class="card-body">
+            <text class="card-title">{{item.title}}</text>
+            <view class="card-foot">
+              <text class="card-src">{{item.source}}</text>
+              <text class="card-likes">♥ {{item.likesText}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 右列 -->
+      <view class="col">
+        <view
+          class="card"
+          wx:for="{{rightColumn}}"
+          wx:key="id"
+          bindtap="onNewsTap"
+          data-id="{{item.id}}"
+        >
+          <view class="img-box">
+            <image class="card-img" src="{{item.image}}" mode="widthFix" lazy-load />
+            <view class="cat-tag cat-{{item.categoryKey}}">{{item.category}}</view>
+          </view>
+          <view class="card-body">
+            <text class="card-title">{{item.title}}</text>
+            <view class="card-foot">
+              <text class="card-src">{{item.source}}</text>
+              <text class="card-likes">♥ {{item.likesText}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="no-more">— 没有更多了 —</view>
+  </scroll-view>
+</view>

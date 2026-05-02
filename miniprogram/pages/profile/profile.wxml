@@ -1,0 +1,62 @@
+<view class="page">
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <view class="avatar">
+      <text class="avatar-char">用</text>
+    </view>
+    <view class="user-info">
+      <text class="username">点击登录</text>
+      <text class="user-tip">登录后获取个性化内容推荐</text>
+    </view>
+    <text class="setting-btn" bindtap="onSetting">⚙</text>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-card">
+    <view class="stat-item" bindtap="onStatTap" data-type="follow">
+      <text class="stat-num">{{stats.follow}}</text>
+      <text class="stat-label">关注</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="onStatTap" data-type="fans">
+      <text class="stat-num">{{stats.fans}}</text>
+      <text class="stat-label">粉丝</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item" bindtap="onStatTap" data-type="likes">
+      <text class="stat-num">{{stats.likes}}</text>
+      <text class="stat-label">获赞</text>
+    </view>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="menu-group">
+    <view
+      class="menu-item"
+      wx:for="{{historyMenu}}"
+      wx:key="label"
+      bindtap="onMenuTap"
+      data-label="{{item.label}}"
+    >
+      <text class="menu-label">{{item.label}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="menu-group">
+    <view
+      class="menu-item"
+      wx:for="{{settingMenu}}"
+      wx:key="label"
+      bindtap="onMenuTap"
+      data-label="{{item.label}}"
+    >
+      <text class="menu-label">{{item.label}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="logout-btn" bindtap="onLogout">
+    <text>退出登录</text>
+  </view>
+</view>

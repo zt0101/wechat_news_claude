@@ -1,0 +1,44 @@
+<view class="page">
+  <!-- 城市 + 分类 -->
+  <view class="city-header">
+    <view class="city-selector">
+      <text class="city-name">北京</text>
+      <text class="city-arrow">▾</text>
+    </view>
+    <view class="local-tabs">
+      <view
+        class="ltab {{activeTab === item ? 'ltab-active' : ''}}"
+        wx:for="{{tabs}}"
+        wx:key="*this"
+        bindtap="onTabTap"
+        data-tab="{{item}}"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 新闻列表 -->
+  <scroll-view class="list-scroll" scroll-y refresher-enabled refresher-triggered="{{refreshing}}" bindrefresherrefresh="onRefresh">
+    <view class="news-list">
+      <view
+        class="news-item"
+        wx:for="{{newsList}}"
+        wx:key="id"
+        bindtap="onNewsTap"
+        data-id="{{item.id}}"
+      >
+        <view class="item-left">
+          <text class="item-title">{{item.title}}</text>
+          <view class="item-meta">
+            <text class="meta-text">{{item.source}}</text>
+            <text class="meta-dot">·</text>
+            <text class="meta-text">{{item.time}}</text>
+            <text class="meta-dot">·</text>
+            <text class="meta-text">{{item.reads}}阅读</text>
+          </view>
+        </view>
+        <image class="item-thumb" src="{{item.image}}" mode="aspectFill" lazy-load />
+      </view>
+    </view>
+    <view class="no-more">— 没有更多了 —</view>
+  </scroll-view>
+</view>
