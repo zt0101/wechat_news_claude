@@ -1,34 +1,46 @@
 .page {
   height: 100vh;
-  background: #000;
+  background: #e8e8e8;
   overflow: hidden;
 }
 
-.news-swiper {
+/* 堆叠容器：撑满全屏，touch 事件挂在这里 */
+.stack-root {
+  position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
-/* 每一屏：flex 纵向排列 */
-.slide {
-  height: 100%;
+/* 每张卡片：绝对定位，left/right 撑满，top 由 inline style 驱动 */
+.card-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+/* 卡片内容：圆角上边，白底，flex 纵向 */
+.card-inner {
   display: flex;
   flex-direction: column;
-  background: #000;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  overflow: hidden;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.12);
 }
 
-/* 顶部安全区：撑开状态栏 + 胶囊按钮，高度由 JS 动态注入 */
+/* 顶部安全区：高度 = 胶囊按钮底部 + 12px，黑色背景 */
 .safe-top {
   flex-shrink: 0;
-  background: #000;
+  background: #1a1a1a;
 }
 
-/* 图片容器：占满中间全部剩余空间 */
+/* 图片容器：占满所有剩余空间 */
 .img-wrap {
   flex: 1;
   position: relative;
   overflow: hidden;
-  min-height: 0; /* flex 子项需要此属性才能正确收缩 */
+  min-height: 0;
 }
 
 /* 横向图片轮播：填满 img-wrap */
@@ -37,7 +49,6 @@
   height: 100%;
 }
 
-/* 图片填满每个 swiper-item */
 .slide-img {
   width: 100%;
   height: 100%;
@@ -89,7 +100,7 @@
   background: #fe2c55;
 }
 
-/* 底部信息区：白底，图片下方 */
+/* 底部信息区 */
 .info-area {
   flex-shrink: 0;
   background: #fff;
@@ -123,7 +134,7 @@
   min-width: 0;
 }
 
-/* 互动按钮组：横排 */
+/* 互动按钮组 */
 .action-row {
   display: flex;
   align-items: center;
@@ -173,11 +184,4 @@
   color: #fff;
   font-size: 36rpx;
   line-height: 1;
-}
-
-/* 底部安全区：Tab Bar 占位（白底与信息区连续）*/
-.safe-bottom {
-  flex-shrink: 0;
-  height: 110rpx;
-  background: #fff;
 }

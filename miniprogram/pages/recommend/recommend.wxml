@@ -1,74 +1,91 @@
 <view class="page">
-  <swiper
-    class="news-swiper"
-    vertical
-    duration="300"
-    current="{{currentIndex}}"
-    bindchange="onSwiperChange"
-    skip-hidden-item-layout
-  >
-    <swiper-item wx:for="{{newsList}}" wx:key="id">
-      <view class="slide">
+  <view class="stack-root" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd">
 
-        <!-- 顶部安全区：撑开状态栏 + 胶囊按钮 -->
-        <view class="safe-top" style="height: {{capsuleBottom + 12}}px"></view>
+    <!-- c2：最底层卡片，z-index 1 -->
+    <view wx:if="{{c2}}" class="card-wrap" style="z-index:1; {{c2Style}}">
+      <view class="card-inner" style="height:{{cardHeight}}px">
+        <view class="safe-top" style="height:{{capsuleBottom+12}}px"></view>
+        <view class="img-wrap">
+          <image class="slide-img" src="{{c2.images[0]}}" mode="aspectFill" lazy-load/>
+          <view class="cat-tag cat-{{c2.categoryKey}}">{{c2.category}}</view>
+        </view>
+        <view class="info-area">
+          <text class="slide-title">{{c2.title}}</text>
+          <view class="meta-row">
+            <text class="slide-source">{{c2.source}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
 
-        <!-- 图片区域：横向轮播，类目标签叠在左上角 -->
+    <!-- c1：中间卡片，z-index 2 -->
+    <view wx:if="{{c1}}" class="card-wrap" style="z-index:2; {{c1Style}}">
+      <view class="card-inner" style="height:{{cardHeight}}px">
+        <view class="safe-top" style="height:{{capsuleBottom+12}}px"></view>
+        <view class="img-wrap">
+          <image class="slide-img" src="{{c1.images[0]}}" mode="aspectFill" lazy-load/>
+          <view class="cat-tag cat-{{c1.categoryKey}}">{{c1.category}}</view>
+        </view>
+        <view class="info-area">
+          <text class="slide-title">{{c1.title}}</text>
+          <view class="meta-row">
+            <text class="slide-source">{{c1.source}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- c0：顶层卡片，z-index 3，完整交互 -->
+    <view wx:if="{{c0}}" class="card-wrap" style="z-index:3; {{c0Style}}">
+      <view class="card-inner" style="height:{{cardHeight}}px">
+        <view class="safe-top" style="height:{{capsuleBottom+12}}px"></view>
         <view class="img-wrap">
           <swiper
             class="img-swiper"
-            current="{{item.imgIndex}}"
+            current="{{c0.imgIndex}}"
             bindchange="onImgSwiperChange"
-            data-news-index="{{index}}"
           >
-            <swiper-item wx:for="{{item.images}}" wx:for-item="imgUrl" wx:key="*this">
-              <image class="slide-img" src="{{imgUrl}}" mode="aspectFill" lazy-load />
+            <swiper-item wx:for="{{c0.images}}" wx:for-item="imgUrl" wx:key="*this">
+              <image class="slide-img" src="{{imgUrl}}" mode="aspectFill" lazy-load/>
             </swiper-item>
           </swiper>
-          <!-- 类目标签：图片左上角 -->
-          <view class="cat-tag cat-{{item.categoryKey}}">{{item.category}}</view>
+          <view class="cat-tag cat-{{c0.categoryKey}}">{{c0.category}}</view>
         </view>
-
-        <!-- 分页点点：图片和标题之间 -->
         <view class="dots-bar">
           <view
-            class="dot {{item.imgIndex === dotIdx ? 'dot-active' : ''}}"
-            wx:for="{{item.images}}"
+            class="dot {{c0.imgIndex === dotIdx ? 'dot-active' : ''}}"
+            wx:for="{{c0.images}}"
             wx:for-index="dotIdx"
             wx:for-item="dotItem"
             wx:key="*this"
           ></view>
         </view>
-
-        <!-- 底部文字区（白底，标题在图片下方）-->
         <view class="info-area">
-          <text class="slide-title">{{item.title}}</text>
+          <text class="slide-title">{{c0.title}}</text>
           <view class="meta-row">
-            <text class="slide-source">{{item.source}}</text>
+            <text class="slide-source">{{c0.source}}</text>
             <view class="action-row">
-              <view class="action-item" bindtap="onLike" data-index="{{index}}">
-                <text class="action-icon {{item.liked ? 'icon-liked' : ''}}">♥</text>
-                <text class="action-count">{{item.likesText}}</text>
+              <view class="action-item" bindtap="onLike">
+                <text class="action-icon {{c0.liked ? 'icon-liked' : ''}}">♥</text>
+                <text class="action-count">{{c0.likesText}}</text>
               </view>
-              <view class="action-item" bindtap="onComment" data-id="{{item.id}}">
+              <view class="action-item" bindtap="onComment">
                 <text class="action-icon">评</text>
-                <text class="action-count">{{item.commentsText}}</text>
+                <text class="action-count">{{c0.commentsText}}</text>
               </view>
-              <view class="action-item" bindtap="onShare" data-id="{{item.id}}">
+              <view class="action-item" bindtap="onShare">
                 <text class="action-icon">转</text>
-                <text class="action-count">{{item.sharesText}}</text>
+                <text class="action-count">{{c0.sharesText}}</text>
               </view>
             </view>
           </view>
-          <view class="detail-btn" bindtap="onDetail" data-id="{{item.id}}">
+          <view class="detail-btn" bindtap="onDetail">
             <text class="detail-text">阅读详情</text>
             <text class="detail-arrow">›</text>
           </view>
         </view>
-
-        <!-- 底部安全区：Tab Bar 占位 -->
-        <view class="safe-bottom"></view>
       </view>
-    </swiper-item>
-  </swiper>
+    </view>
+
+  </view>
 </view>
